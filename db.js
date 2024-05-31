@@ -1,0 +1,21 @@
+const mysql = require("mysql");
+
+const db = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
+
+function connect() {
+  db.connect((err) => {
+    if (err) {
+      console.error("Error connecting to MySQL: ", err);
+      console.log("10秒後嘗試重新連線...");
+      setTimeout(connect, 10000);
+    }
+    console.log("MySQL Connected...");
+  });
+}
+
+module.exports = { db, connect };

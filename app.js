@@ -9,7 +9,7 @@ const passport = require("passport");
 require("./config/passport")(passport);
 const router = require("./routes/router");
 
-db.connect();
+// db.connect();
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json());

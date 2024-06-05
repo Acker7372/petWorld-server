@@ -18,6 +18,6 @@ app.use("/", router);
 
 //只有登入系統的人，才能使用收藏功能及創建走失搜尋卡片
 
-app.listen(3000, () => {
-  console.log("Server started on port 3000");
+app.listen(8080, () => {
+  console.log("Server started on port 8080");
 });

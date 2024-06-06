@@ -29,7 +29,7 @@ async function register(req, res) {
     }
   } catch (err) {
     console.error("Error querying MySQL: ", err);
-    res.status(500).send("Server error");
+    res.status(500).send({ error: err.toString() });
   }
 }
 

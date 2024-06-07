@@ -5,7 +5,7 @@ const query = util.promisify(db.query).bind(db);
 async function saveLostPet(req, res) {
   const userId = req.user.id;
   const petInfo = JSON.parse(req.body.petInfo);
-  petInfo.petImage = req.file.path;
+  petInfo.petImage = req.petImage;
   const sql =
     "INSERT INTO lostPets (userID, petName, petType, petBreed, petColor, lostDate, lostArea, lostAddress, contactNumber, notes, petImage) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
   try {

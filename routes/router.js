@@ -6,15 +6,16 @@ const userInfo = require("./userInfo");
 const favoriteAnimal = require("./favoriteAnimal");
 const lostPet = require("./lostPet");
 const multer = require("multer");
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "uploads/");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-const upload = multer({ storage: storage });
+const upload = multer();
+// const storage = multer.diskStorage({
+//   destination: function (req, file, cb) {
+//     cb(null, "uploads/");
+//   },
+//   filename: function (req, file, cb) {
+//     cb(null, Date.now() + "-" + file.originalname);
+//   },
+// });
+// const upload = multer({ storage: storage });
 
 router.post("/register", register);
 router.post("/login", login);
@@ -64,10 +65,23 @@ router.get(
 );
 
 //lostPet
+// router.post(
+//   "/lostPet/saveLostPet",
+//   passport.authenticate("jwt", { session: false }),
+//     upload.single("petImage"),
+//   lostPet.saveLostPet
+// );
+
 router.post(
   "/lostPet/saveLostPet",
-  passport.authenticate("jwt", { session: false }),
   upload.single("petImage"),
+  function (req, res, next) {
+    const base64 = req.file.buffer.toString("base64");
+    const mineType = req.file.mimetype;
+    req.petImage = `data:${mineType};base64,${base64}`;
+    next();
+  },
+  passport.authenticate("jwt", { session: false }),
   lostPet.saveLostPet
 );
 
